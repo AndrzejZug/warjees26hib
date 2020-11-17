@@ -6,7 +6,9 @@ import pl.coderslab.animals.Animal;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.util.List;
 
 
 @Repository
@@ -33,4 +35,22 @@ public class BookDao {
         Hibernate.initialize(book.getComments());
         return book;
     }
+
+    public List<Book> getMostPopularBooks() {
+        Query query = entityManager.createQuery("SELECT b FROM Book  b where b.rating =10");
+        return query.getResultList();
+    }
+
+    public List<Book> getAll() {
+        Query query = entityManager.createQuery("SELECT b from Book b");
+        return query.getResultList();
+    }
+
+    public List<Book> getRatingList(int rating) {
+        Query query = entityManager.createQuery("SELECT b from Book b where  b.rating=:selectedRating");
+        query.setParameter("selectedRating", rating);
+        return query.getResultList();
+    }
+
+
 }
