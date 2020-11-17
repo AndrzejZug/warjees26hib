@@ -1,10 +1,36 @@
 package pl.coderslab.student;
 
+import javax.persistence.*;
+
+@Entity
 public class Student {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String firstName;
     private String lastName;
     private int age;
+
+    @ManyToOne
+    private Group group;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
 
     public int getAge() {
         return age;

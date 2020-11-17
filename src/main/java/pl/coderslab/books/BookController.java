@@ -1,4 +1,4 @@
-package pl.coderslab.animals;
+package pl.coderslab.books;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,33 +26,6 @@ public class BookController {
     }
 
 
-    @RequestMapping("/add")
-    @ResponseBody
-    public String addBook() {
-        Publisher byId = publisherDao.findById(1);
-        Book book = new Book();
-
-        Publisher publisher = new Publisher();
-
-        Comment byId1 = commentDao.findById(1);
-        Comment byId2 = commentDao.findById(2);
-        Comment comment = new Comment();
-        comment.setContent("asdasd");
-        commentDao.save(comment);
-
-        List<Comment> comments = new ArrayList<>();
-        comments.add(byId1);
-        comments.add(byId2);
-        comments.add(comment);
-
-        book.setComments(comments);
-
-        book.setTitle("Thinking in Java");
-        book.setDescription("Very long book about java.");
-        book.setPublisher(byId);
-        bookDao.save(book);
-        return "added";
-    }
 
     @RequestMapping("/get")
     @ResponseBody

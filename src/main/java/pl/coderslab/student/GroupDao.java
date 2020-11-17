@@ -1,6 +1,8 @@
-package pl.coderslab.books;
+package pl.coderslab.student;
 
 import org.springframework.stereotype.Repository;
+import pl.coderslab.books.Book;
+import pl.coderslab.persons.Person;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,22 +13,14 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class PublisherDao {
+public class GroupDao {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void save(Publisher book) {
-        entityManager.persist(book);
-    }
 
-    public Publisher findById(long id) {
-        return entityManager.find(Publisher.class, id);
-    }
-
-
-    public List<Publisher> findAll() {
-        Query query = entityManager.createQuery("SELECT p from Publisher p");
+    public List<Group> getAll() {
+        Query query = entityManager.createQuery("SELECT g from Group g");
         return query.getResultList();
     }
 }

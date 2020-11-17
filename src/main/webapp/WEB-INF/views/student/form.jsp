@@ -8,6 +8,7 @@
 <body>
 
 <form:form method="post"  modelAttribute="student">
+    <form:select path="group.id" items="${groups}" itemLabel="name" itemValue="id"/>
     <form:input path="firstName" />
     <form:input path="lastName" />
     <form:input path="age" />
