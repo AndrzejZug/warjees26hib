@@ -24,6 +24,17 @@ public class Book {
     @ManyToOne
     private Author author;
 
+    @ManyToMany
+    private List<Author> authors;
+
+    public List<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
+    }
+
     @OneToMany
     private List<Comment> comments;
 

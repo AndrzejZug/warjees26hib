@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -49,6 +50,14 @@ public class BookDao {
     public List<Book> getRatingList(int rating) {
         Query query = entityManager.createQuery("SELECT b from Book b where  b.rating=:selectedRating");
         query.setParameter("selectedRating", rating);
+        return query.getResultList();
+    }
+
+    public List<Book> getBooksByAuthor(Author author) {
+        Query query = entityManager.createQuery("SELECT b from Book b where :authors member of b.authors");
+        List<Author> authors = new ArrayList<>();
+        authors.add(author);
+        query.setParameter("authors", authors);
         return query.getResultList();
     }
 

@@ -15,11 +15,14 @@ public class BookController {
     private final BookDao bookDao;
     private final PublisherDao publisherDao;
     private final CommentDao commentDao;
+    private final AuthorDao authorDao;
 
-    public BookController(BookDao bookDao, PublisherDao publisherDao, CommentDao commentDao) {
+
+    public BookController(BookDao bookDao, PublisherDao publisherDao, CommentDao commentDao, AuthorDao authorDao) {
         this.bookDao = bookDao;
         this.publisherDao = publisherDao;
         this.commentDao = commentDao;
+        this.authorDao = authorDao;
     }
 
 
@@ -73,6 +76,18 @@ public class BookController {
     @ResponseBody
     public String all() {
         bookDao.getAll().forEach(b -> System.out.println(b));
+        return "ok";
+    }
+
+    @RequestMapping("/by-author")
+    @ResponseBody
+    public String byAuthor() {
+        Author byId = authorDao.findById(1);
+        Author byId2 = authorDao.findById(2);
+        System.out.println("one book");
+        bookDao.getBooksByAuthor(byId).forEach(b -> System.out.println(b));
+        System.out.println("two books");
+        bookDao.getBooksByAuthor(byId2).forEach(b -> System.out.println(b));
         return "ok";
     }
 }
