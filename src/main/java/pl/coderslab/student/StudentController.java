@@ -6,8 +6,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/student")
@@ -15,10 +18,12 @@ public class StudentController {
 
     private final GroupDao groupDao;
     private final StudentDao studentDao;
+    private final  Validator validator;
 
-    public StudentController(GroupDao groupDao, StudentDao studentDao) {
+    public StudentController(GroupDao groupDao, StudentDao studentDao, Validator validator) {
         this.groupDao = groupDao;
         this.studentDao = studentDao;
+        this.validator = validator;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -26,7 +31,18 @@ public class StudentController {
         List<Group> all = groupDao.getAll();
         model.addAttribute("groups", all);
         System.out.println(student);
-        studentDao.save(student);
+
+        Set<ConstraintViolation<Student>> validate = validator.validate(student);
+        if(validate.isEmpty()){
+            System.out.println( "student ok");
+            studentDao.save(student);
+        }else {
+            for (ConstraintViolation<Student> studentConstraintViolation : validate) {
+                System.out.println(studentConstraintViolation.getPropertyPath());
+                System.out.println(studentConstraintViolation.getMessage());
+            }
+        }
+
         return "student/form";
     }
 

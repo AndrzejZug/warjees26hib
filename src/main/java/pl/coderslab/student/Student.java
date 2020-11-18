@@ -1,6 +1,10 @@
 package pl.coderslab.student;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Student {
@@ -9,8 +13,12 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String firstName;
+
     private String lastName;
+    @Min(18)
+    @Max(99)
     private int age;
 
     @ManyToOne
