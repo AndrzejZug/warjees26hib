@@ -30,14 +30,14 @@ public class Book {
     @ManyToMany
     private List<Reviewer> reviewers;
 
-    @NotNull
+
     @ManyToOne
     private Author author;
 
     @ManyToMany
     private List<Author> authors;
 
-    @Min(1)
+
     private int pages;
     @OneToMany
     private List<Comment> comments;

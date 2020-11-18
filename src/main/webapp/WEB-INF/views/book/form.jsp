@@ -6,9 +6,12 @@
 </head>
 <body>
 <form:form method="post" modelAttribute="book">
-    <form:input path="title" />
-    <form:input path="description"/>
-    <form:select path="publisher.id" items="${publishers}" itemLabel="name" itemValue="id"/>
+    <h3><form:errors path="*" /></h3>
+    <form:input path="title" /><br/>
+    <form:errors path="title" cssClass="error" element="p"/><br/>
+    <form:input path="rating" /><br/>
+    <form:input path="description"/><br/>
+    <form:select path="publisher.id" items="${publishers}" itemLabel="name" itemValue="id"/><br/>
     <input type="submit"/>
 </form:form>
 </body>
