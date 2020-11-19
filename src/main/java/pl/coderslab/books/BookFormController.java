@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -16,11 +17,13 @@ public class BookFormController {
     private final BookDao bookDao;
     private final PublisherDao publisherDao;
     private final BookRepository bookRepository;
+    private final CategoryRepository categoryRepository;
 
-    public BookFormController(BookDao bookDao, PublisherDao publisherDao, BookRepository bookRepository) {
+    public BookFormController(BookDao bookDao, PublisherDao publisherDao, BookRepository bookRepository, CategoryRepository categoryRepository) {
         this.bookDao = bookDao;
         this.publisherDao = publisherDao;
         this.bookRepository = bookRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @ModelAttribute("publishers")
@@ -50,5 +53,23 @@ public class BookFormController {
     public String allBooks(Model model) {
         model.addAttribute("books", bookRepository.findAll());
         return "book/all";
+    }
+
+    @RequestMapping(value = "/bookByTitleAndrating", method = RequestMethod.GET)
+    public String bookByTitleAndrating(Model model) {
+        model.addAttribute("book", bookRepository.findByTitleAndRating("Thinking in Java", 10));
+        return "book/one";
+    }
+    @RequestMapping(value = "/bookByTitleRating", method = RequestMethod.GET)
+    public String bookByTitleRating(Model model) {
+        model.addAttribute("book", bookRepository.findBookOOOOOOByTitleAndRating("Thinking in Java", 10));
+        model.addAttribute("book", bookRepository.findByTitleLike("%asdsd"));
+        return "book/one";
+    }
+
+    @RequestMapping(value = "/byCategory/{id}", method = RequestMethod.GET)
+    public String bookByTitleRating(@PathVariable long id, Model model) {
+        model.addAttribute("book", bookRepository.findByCategory(categoryRepository.getOne(id)));
+        return "book/one";
     }
 }
